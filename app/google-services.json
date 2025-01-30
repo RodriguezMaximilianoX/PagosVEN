@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "226600280117",
+    "project_id": "pagosven-f93fd",
+    "storage_bucket": "pagosven-f93fd.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:226600280117:android:d0930ba4ae7a4f6088917c",
+        "android_client_info": {
+          "package_name": "com.rmxdev.pagosven"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDbCUxNZebDmC-zk-2OV2xGFJw2FGOHzQ0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
