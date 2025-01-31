@@ -11,5 +11,5 @@ interface UserRepository {
         email: String,
         password: String
     ): Result<Unit>
-    suspend fun getNameUser(): Result<String>
+    suspend fun getNameUser(): String
 }

@@ -53,15 +53,13 @@ class UserRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun getNameUser(): Result<String> {
+    override suspend fun getNameUser(): String {
         return try {
-            val userId = firebaseAuth.currentUser?.uid
-            val snapshot = firestore.collection("users").document(userId ?: "").get().await()
-            val user = snapshot.toObject(User::class.java)
-
-            Result.success(user?.name ?: "")
+            val userId = firebaseAuth.currentUser?.uid ?: throw Exception("Usuario no autenticado")
+            val snapshot = firestore.collection("users").document(userId).get().await()
+            snapshot.getString("name") ?: "Usuario desconocido"
         } catch (e: Exception) {
-            Result.failure(e)
+            "Error: ${e.message}"
         }
     }
 }
