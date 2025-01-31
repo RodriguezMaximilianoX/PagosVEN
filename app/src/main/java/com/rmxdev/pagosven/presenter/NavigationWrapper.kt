@@ -19,7 +19,7 @@ fun NavigationWrapper(
     modifier: Modifier = Modifier,
     navController: NavHostController = rememberNavController(),
 ) {
-    NavHost(navController = navController, startDestination = "home", modifier = modifier){
+    NavHost(navController = navController, startDestination = "initial", modifier = modifier){
         composable("initial"){
            InitialScreen(
                modifier = modifier,
