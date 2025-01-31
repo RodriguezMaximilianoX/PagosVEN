@@ -13,7 +13,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
@@ -84,7 +83,7 @@ fun HomeScreen(
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(200.dp)
-                    .padding(24.dp)
+                    .padding(16.dp)
                     .clip(RoundedCornerShape(16.dp))
                     .background(White),
                 horizontalAlignment = Alignment.CenterHorizontally,
@@ -104,34 +103,35 @@ fun HomeScreen(
                 Row(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(24.dp),
-                    horizontalArrangement = Arrangement.SpaceBetween,
+                        .padding(16.dp),
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     Button(
                         onClick = { navigateToDeposit() },
                         colors = buttonColors(containerColor = Color.Transparent),
                         modifier = Modifier
-                            .width(115.dp)
                             .border(2.dp, Blue, CircleShape)
+                            .weight(1f)
                     ) {
                         Text(text = "Depositar", color = Blue, fontWeight = FontWeight.Bold)
                     }
+                    Spacer(modifier = Modifier.weight(0.10f))
                     Button(
                         onClick = { navigateToTransfer() },
                         colors = buttonColors(containerColor = Color.Transparent),
                         modifier = Modifier
-                            .width(115.dp)
                             .border(2.dp, Blue, CircleShape)
+                            .weight(1f)
                     ) {
                         Text(text = "Transferir", color = Blue, fontWeight = FontWeight.Bold)
                     }
+                    Spacer(modifier = Modifier.weight(0.10f))
                     Button(
                         onClick = { navigateToCharge() },
                         colors = buttonColors(containerColor = Color.Transparent),
                         modifier = Modifier
-                            .width(115.dp)
                             .border(2.dp, Blue, CircleShape)
+                            .weight(1f)
                     ) {
                         Text(text = "Cobrar", color = Blue, fontWeight = FontWeight.Bold)
                     }
@@ -170,7 +170,11 @@ fun HomeScreen(
 
                 }
             }
-            Spacer(modifier = Modifier.weight(4f))
+            Image(
+                painterResource(id = R.drawable.home_first_app_pay),
+                contentDescription = "App logo"
+            )
+            Spacer(modifier = Modifier.weight(1f))
             FloatingActionButton(
                 onClick = { /*TODO*/ },
                 shape = CircleShape,
