@@ -18,8 +18,9 @@ import com.rmxdev.pagosven.presenter.transfer.TransferScreen
 fun NavigationWrapper(
     modifier: Modifier = Modifier,
     navController: NavHostController = rememberNavController(),
+    startDestination: String
 ) {
-    NavHost(navController = navController, startDestination = "initial", modifier = modifier){
+    NavHost(navController = navController, startDestination = startDestination, modifier = modifier){
         composable("initial"){
            InitialScreen(
                modifier = modifier,
