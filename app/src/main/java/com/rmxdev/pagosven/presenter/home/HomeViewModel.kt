@@ -2,6 +2,8 @@ package com.rmxdev.pagosven.presenter.home
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.google.firebase.auth.FirebaseAuth
+import com.rmxdev.pagosven.domain.useCase.getBalanceUserUseCase.GetBalanceUserUseCase
 import com.rmxdev.pagosven.domain.useCase.getNameUserUseCase.GetNameUserUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -12,29 +14,33 @@ import javax.inject.Inject
 
 @HiltViewModel
 class HomeViewModel @Inject constructor(
-    private val getNameUser: GetNameUserUseCase
+    private val getNameUser: GetNameUserUseCase,
+    private val getBalanceUser: GetBalanceUserUseCase,
+    private val auth: FirebaseAuth
 ) : ViewModel() {
     private val _userName = MutableStateFlow("")
     val userName: StateFlow<String> = _userName.asStateFlow()
 
-    private var isNameLoaded = false
+    private val _userBalance = MutableStateFlow(0.0)
+    val userBalance: StateFlow<Double> = _userBalance.asStateFlow()
 
-    fun getUserName() {
-        // Si ya se cargó el nombre, no lo volvemos a cargar
-        if (isNameLoaded) return
+    private val userId: String? = auth.currentUser?.uid
 
-        // Emitimos "Cargando..." mientras obtenemos el nombre
-        _userName.value = "Cargando..."
 
+    init {
+        userId?.let {
+            loadUserData(it) // Cargar nombre y balance al iniciar el ViewModel
+        }
+    }
+
+    private fun loadUserData(userId: String) {
         viewModelScope.launch {
             try {
-                // Llamamos al repositorio para obtener el nombre
-                val name = getNameUser()
-                _userName.value = name
-                isNameLoaded = true // Marcamos que ya se cargó el nombre
+                _userName.value = getNameUser(userId)
+                _userBalance.value = getBalanceUser(userId)
             } catch (e: Exception) {
-                // Si hay error, lo manejamos
                 _userName.value = "Error: ${e.message}"
+                _userBalance.value = 0.0
             }
         }
     }

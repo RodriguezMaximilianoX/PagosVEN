@@ -28,9 +28,9 @@ class TransferMoneyRepositoryImpl @Inject constructor(
 
     override suspend fun executeTransaction(
         senderId: String,
-        newSenderBalance: Float,
+        newSenderBalance: Double,
         receiverId: String,
-        newReceiverBalance: Float
+        newReceiverBalance: Double
     ): Result<Unit> {
         return try {
             firestore.runTransaction{transaction ->

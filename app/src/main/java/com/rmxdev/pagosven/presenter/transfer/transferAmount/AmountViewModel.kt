@@ -22,7 +22,7 @@ class AmountViewModel @Inject constructor(
     private val _amountState = MutableStateFlow<AmountState>(AmountState.Idle)
     val amountState: StateFlow<AmountState> = _amountState
 
-    fun transferMoney(userReceiver: User, amount: Float) {
+    fun transferMoney(userReceiver: User, amount: Double) {
         viewModelScope.launch {
             _amountState.value = AmountState.Loading
             val result = transferMoneyUseCase(senderId, userReceiver, amount)

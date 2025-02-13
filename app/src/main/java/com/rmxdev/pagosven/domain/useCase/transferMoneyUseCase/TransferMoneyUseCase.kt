@@ -7,7 +7,7 @@ import javax.inject.Inject
 class TransferMoneyUseCase @Inject constructor(
     private val repository: TransferMoneyRepository
 ) {
-    suspend operator fun invoke(senderId: String, receiver: User, amount: Float): Result<Unit> {
+    suspend operator fun invoke(senderId: String, receiver: User, amount: Double): Result<Unit> {
         if (amount <= 0) return Result.failure(Exception("El monto debe ser mayor a 0"))
 
         val sender = repository.getUserById(senderId)

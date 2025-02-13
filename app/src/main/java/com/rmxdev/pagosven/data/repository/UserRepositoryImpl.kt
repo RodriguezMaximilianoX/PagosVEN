@@ -42,7 +42,7 @@ class UserRepositoryImpl @Inject constructor(
                 email = email,
                 password = password,
                 alias = alias,
-                balance = 0f
+                balance = 0.0
             )
 
             firestore.collection("users").document(firebaseUser.uid).set(user).await()
@@ -60,6 +60,17 @@ class UserRepositoryImpl @Inject constructor(
             snapshot.getString("name") ?: "Usuario desconocido"
         } catch (e: Exception) {
             "Error: ${e.message}"
+        }
+    }
+
+    override suspend fun getBalanceUser(): Double {
+        val userId = firebaseAuth.currentUser?.uid
+        return if (userId != null) {
+            // Obtener el balance del usuario desde Firestore o tu fuente de datos
+            val userDoc = firestore.collection("users").document(userId).get().await()
+            userDoc.getDouble("balance") ?: 0.0
+        } else {
+            0.0 // Si no hay usuario logueado, retornamos un balance de 0.0
         }
     }
 }

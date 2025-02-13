@@ -12,4 +12,5 @@ interface UserRepository {
         password: String
     ): Result<Unit>
     suspend fun getNameUser(): String
+    suspend fun getBalanceUser(): Double
 }

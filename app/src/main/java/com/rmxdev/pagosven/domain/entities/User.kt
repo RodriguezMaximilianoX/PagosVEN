@@ -9,7 +9,7 @@ data class User(
     val email: String = "",
     val password: String = "",
     val alias: String = "",
-    val balance: Float = 0f
+    val balance: Double = 0.0
 ){
-    constructor() : this("", "", "", "", "", "", "", "", 0f)
+    constructor() : this("", "", "", "", "", "", "", "", 0.0)
 }

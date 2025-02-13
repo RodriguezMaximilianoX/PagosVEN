@@ -22,7 +22,6 @@ import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -58,11 +57,7 @@ fun HomeScreen(
     }
 
     val userName by viewModel.userName.collectAsState()
-
-    // Ejecutamos getUserName() solo la primera vez
-    LaunchedEffect(Unit) {
-        viewModel.getUserName() // Llamamos a la función para obtener el nombre
-    }
+    val userBalance by viewModel.userBalance.collectAsState()
 
     Box(
         modifier = modifier.fillMaxSize(),
@@ -163,7 +158,7 @@ fun HomeScreen(
                         fontWeight = FontWeight.Bold
                     )
                     Text(
-                        text = "$20000",
+                        text = "$userBalance",
                         fontSize = 30.sp,
                         color = Black,
                         fontWeight = FontWeight.Bold

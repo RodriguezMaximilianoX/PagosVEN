@@ -7,8 +7,8 @@ interface TransferMoneyRepository {
     suspend fun findUserByIdentifier(identifier: String): User?
     suspend fun executeTransaction(
         senderId: String,
-        newSenderBalance: Float,
+        newSenderBalance: Double,
         receiverId: String,
-        newReceiverBalance: Float
+        newReceiverBalance: Double
     ): Result<Unit>
 }

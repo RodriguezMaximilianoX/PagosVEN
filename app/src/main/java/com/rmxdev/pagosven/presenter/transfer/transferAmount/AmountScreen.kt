@@ -104,7 +104,7 @@ fun AmountScreen(
                 maxLines = 1
             )
             Button(
-                onClick = { viewModel.transferMoney(userReceiver, amount.toFloat()) },
+                onClick = { viewModel.transferMoney(userReceiver, amount.toDouble()) },
                 colors = buttonColors(containerColor = Blue, contentColor = White),
                 modifier = Modifier
                     .fillMaxWidth()
