@@ -1,6 +1,5 @@
 package com.rmxdev.pagosven.presenter.home
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.rmxdev.pagosven.domain.useCase.getNameUserUseCase.GetNameUserUseCase
@@ -17,6 +16,7 @@ class HomeViewModel @Inject constructor(
 ) : ViewModel() {
     private val _userName = MutableStateFlow("")
     val userName: StateFlow<String> = _userName.asStateFlow()
+
     private var isNameLoaded = false
 
     fun getUserName() {
@@ -24,19 +24,14 @@ class HomeViewModel @Inject constructor(
         if (isNameLoaded) return
 
         // Emitimos "Cargando..." mientras obtenemos el nombre
-        _userName.value = "de nuevo"
+        _userName.value = "Cargando..."
 
         viewModelScope.launch {
             try {
-                Log.d("HomeViewModel", "Obteniendo el nombre del usuario...")
                 // Llamamos al repositorio para obtener el nombre
                 val name = getNameUser()
-                Log.d("HomeViewModel", "Nombre del usuario: ${_userName.value}")
-                // Si el nombre cambia, lo actualizamos
-                if (_userName.value != name) {
-                    _userName.value = name
-                    isNameLoaded = true // Marcamos que ya se cargó el nombre
-                }
+                _userName.value = name
+                isNameLoaded = true // Marcamos que ya se cargó el nombre
             } catch (e: Exception) {
                 // Si hay error, lo manejamos
                 _userName.value = "Error: ${e.message}"

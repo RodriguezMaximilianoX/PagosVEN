@@ -50,7 +50,6 @@ fun HomeScreen(
     navigateToDeposit: () -> Unit,
     navigateToCharge: () -> Unit
 ) {
-
     val systemUiController = rememberSystemUiController()
 
     SideEffect {
@@ -60,6 +59,7 @@ fun HomeScreen(
 
     val userName by viewModel.userName.collectAsState()
 
+    // Ejecutamos getUserName() solo la primera vez
     LaunchedEffect(Unit) {
         viewModel.getUserName() // Llamamos a la función para obtener el nombre
     }
@@ -168,7 +168,6 @@ fun HomeScreen(
                         color = Black,
                         fontWeight = FontWeight.Bold
                     )
-
                 }
             }
             Spacer(modifier = Modifier.weight(0.25f))
@@ -176,7 +175,9 @@ fun HomeScreen(
                 painterResource(id = R.drawable.home_first_app_pay),
                 contentDescription = "App logo",
                 contentScale = ContentScale.Crop,
-                modifier = Modifier.clip(RoundedCornerShape(24.dp)).width(400.dp)
+                modifier = Modifier
+                    .clip(RoundedCornerShape(24.dp))
+                    .width(400.dp)
             )
             Spacer(modifier = Modifier.weight(1f))
             FloatingActionButton(

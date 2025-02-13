@@ -79,6 +79,9 @@ dependencies {
     //SystemUiController
     implementation(libs.system.ui.controller)
 
+    //GSON
+    implementation(libs.gson)
+
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
