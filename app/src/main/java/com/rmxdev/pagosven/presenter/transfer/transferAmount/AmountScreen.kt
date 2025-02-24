@@ -13,6 +13,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults.buttonColors
@@ -35,7 +36,6 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -56,6 +56,7 @@ fun AmountScreen(
     var amount by rememberSaveable { mutableStateOf("") }
     val amountState by viewModel.amountState.collectAsState()
     val context = LocalContext.current
+    val userBalance by viewModel.userBalance.collectAsState()
 
     Box(
         modifier = modifier.fillMaxSize(),
@@ -74,16 +75,21 @@ fun AmountScreen(
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Spacer(modifier = Modifier.weight(0.5f))
-            Text(text = "Cantidad de dinero a transferir", fontSize = 35.sp, color = Black, textAlign = TextAlign.Center)
-            Spacer(
+            Column(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(horizontal = 54.dp, vertical = 16.dp)
-                    .height(3.dp)
-                    .background(
-                        Black
-                    )
-            )
+                    .clip(RoundedCornerShape(16.dp))
+                    .background(White),
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                Text("Saldo Actual", fontSize = 30.sp, fontWeight = FontWeight.Bold, color = Blue)
+                Text(
+                    "$userBalance",
+                    fontSize = 30.sp,
+                    fontWeight = FontWeight.Bold,
+                    color = Black
+                )
+            }
             Spacer(modifier = Modifier.weight(0.25f))
             TextField(
                 value = amount,

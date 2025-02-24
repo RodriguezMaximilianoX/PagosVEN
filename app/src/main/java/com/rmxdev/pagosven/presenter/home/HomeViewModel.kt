@@ -16,7 +16,7 @@ import javax.inject.Inject
 class HomeViewModel @Inject constructor(
     private val getNameUser: GetNameUserUseCase,
     private val getBalanceUser: GetBalanceUserUseCase,
-    private val auth: FirebaseAuth
+    auth: FirebaseAuth
 ) : ViewModel() {
     private val _userName = MutableStateFlow("")
     val userName: StateFlow<String> = _userName.asStateFlow()

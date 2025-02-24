@@ -5,6 +5,7 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -73,7 +74,17 @@ fun TransferScreen(
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Spacer(modifier = Modifier.weight(0.5f))
-            Text(text = "Transferencia", fontSize = 35.sp, color = Black)
+            Text(
+                text = "Transferencia",
+                fontSize = 35.sp,
+                color = Blue,
+                textAlign = TextAlign.Center,
+                fontWeight = FontWeight.Bold,
+                modifier = Modifier
+                    .clip(RoundedCornerShape(16.dp))
+                    .background(White)
+                    .padding(horizontal = 24.dp, vertical = 24.dp)
+            )
             Spacer(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -160,11 +171,41 @@ fun TransferScreen(
                             .background(White),
                         horizontalAlignment = Alignment.CenterHorizontally
                     ) {
-                        Text(text = "Nombre: ${(transferState as TransferState.Success).receiver.name}", fontSize = 25.sp,)
-                        Text(text = "Apellido: ${(transferState as TransferState.Success).receiver.surname}", fontSize = 25.sp,)
-                        Text(text = "Cédula: ${(transferState as TransferState.Success).receiver.dni}", fontSize = 25.sp,)
-                        Text(text = "Alias: ${(transferState as TransferState.Success).receiver.alias}", fontSize = 25.sp,)
-                        Text(text = "Tleléfono: ${(transferState as TransferState.Success).receiver.phone}", fontSize = 25.sp,)
+                        Row {
+                            Text("Nombre: ", fontSize = 25.sp, color = Blue, fontWeight = FontWeight.Bold)
+                            Text(
+                                text = (transferState as TransferState.Success).receiver.name,
+                                fontSize = 25.sp,
+                            )
+                        }
+                        Row {
+                            Text("Apellido: ", fontSize = 25.sp, color = Blue, fontWeight = FontWeight.Bold)
+                            Text(
+                                text = (transferState as TransferState.Success).receiver.surname,
+                                fontSize = 25.sp,
+                            )
+                        }
+                        Row {
+                            Text("Cédula: ", fontSize = 25.sp, color = Blue, fontWeight = FontWeight.Bold)
+                            Text(
+                                text = (transferState as TransferState.Success).receiver.dni,
+                                fontSize = 25.sp,
+                            )
+                        }
+                        Row {
+                            Text("Álias: ", fontSize = 25.sp, color = Blue, fontWeight = FontWeight.Bold)
+                            Text(
+                                text = (transferState as TransferState.Success).receiver.alias,
+                                fontSize = 25.sp,
+                            )
+                        }
+                        Row {
+                            Text("Teléfono: ", fontSize = 25.sp, color = Blue, fontWeight = FontWeight.Bold)
+                            Text(
+                                text = (transferState as TransferState.Success).receiver.phone,
+                                fontSize = 25.sp,
+                            )
+                        }
                         val receiver = (transferState as TransferState.Success).receiver
                         Button(
                             onClick = {
