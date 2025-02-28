@@ -87,6 +87,9 @@ dependencies {
     implementation(libs.zxing)
     implementation(libs.journeyapp)
 
+    //Coil
+    implementation(libs.coil)
+
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)

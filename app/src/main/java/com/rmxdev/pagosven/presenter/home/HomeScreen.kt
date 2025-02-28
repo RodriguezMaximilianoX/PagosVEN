@@ -2,6 +2,7 @@ package com.rmxdev.pagosven.presenter.home
 
 import android.app.Activity
 import android.content.Intent
+import android.util.Log
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.Image
@@ -55,15 +56,16 @@ fun HomeScreen(
     viewModel: HomeViewModel = hiltViewModel(),
     navigateToTransfer: () -> Unit,
     navigateToRegisters: () -> Unit,
-    navigateToCharge: () -> Unit,
+    navigateToCharge: (String) -> Unit,
     navigateToProfile: () -> Unit,
-    navigateToPay: (String) -> Unit,
+    navigateToPay: (String, String) -> Unit,
 ) {
     val systemUiController = rememberSystemUiController()
     val userName by viewModel.userName.collectAsState()
     val userBalance by viewModel.userBalance.collectAsState()
     val context = LocalContext.current
     val scannedQr by viewModel.scannedQrContent.collectAsState()
+    val userId = viewModel.userId ?: ""
 
     val scannerLauncher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.StartActivityForResult()
@@ -75,8 +77,12 @@ fun HomeScreen(
     }
 
     LaunchedEffect(scannedQr) {
-        scannedQr?.let { payAmount ->
-            navigateToPay(payAmount)
+        scannedQr?.let {
+            val values = it.split(";")
+            val payAmount = values[0]
+            val userID = values[1]
+            navigateToPay(userID, payAmount)
+            Log.d("HomeScreen", "Navigating to PayScreen with userID: $userID and payAmount: $payAmount")
         }
     }
 
@@ -84,8 +90,6 @@ fun HomeScreen(
         systemUiController.isStatusBarVisible = false
         systemUiController.isNavigationBarVisible = false
     }
-
-
 
     Box(
         modifier = modifier.fillMaxSize(),
@@ -155,7 +159,7 @@ fun HomeScreen(
                     }
                     Spacer(modifier = Modifier.weight(0.10f))
                     Button(
-                        onClick = { navigateToCharge() },
+                        onClick = { navigateToCharge(userId) },
                         colors = buttonColors(containerColor = Color.Transparent),
                         modifier = Modifier
                             .border(2.dp, Blue, CircleShape)

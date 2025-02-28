@@ -13,6 +13,7 @@ import com.rmxdev.pagosven.presenter.home.HomeScreen
 import com.rmxdev.pagosven.presenter.initial.InitialScreen
 import com.rmxdev.pagosven.presenter.login.LoginScreen
 import com.rmxdev.pagosven.presenter.pay.PayScreen
+import com.rmxdev.pagosven.presenter.qr.QrScreen
 import com.rmxdev.pagosven.presenter.registers.RegistersScreen
 import com.rmxdev.pagosven.presenter.signup.SignupScreen
 import com.rmxdev.pagosven.presenter.transfer.transferAmount.AmountScreen
@@ -53,10 +54,12 @@ fun NavigationWrapper(
                 modifier = modifier,
                 navigateToTransfer = { navController.navigate("transfer") },
                 navigateToRegisters = { navController.navigate("registers") },
-                navigateToCharge = { navController.navigate("charge") },
+                navigateToCharge = { userId ->
+                    navController.navigate("charge/$userId")
+                },
                 navigateToProfile = { navController.navigate("profile") },
-                navigateToPay = { payAmount ->
-                    navController.navigate("pay/$payAmount")
+                navigateToPay = { userID, payAmount ->
+                    navController.navigate("pay/$userID/$payAmount")
                 }
             )
         }
@@ -84,16 +87,34 @@ fun NavigationWrapper(
                 modifier = modifier
             )
         }
-        composable("charge") {
+        composable("charge/{userId}") {
+            val userId = it.arguments?.getString("userId")
             ChargeScreen(
-                modifier = modifier
+                modifier = modifier,
+                userId = userId ?: "",
+                navigateToQrScreen = { userID, amount ->
+                    navController.navigate("qr/$userID/$amount")
+                }
             )
         }
-        composable("pay/{payAmount}") {
+        composable("pay/{userId}/{payAmount}") {
             val payAmount = it.arguments?.getString("payAmount")
+            val userId = it.arguments?.getString("userId")
             PayScreen(
                 modifier = modifier,
-                payAmount = payAmount ?: ""
+                userId = userId ?: "",
+                payAmount = payAmount ?: "",
+                navigateToHome = { navController.navigate("home") }
+            )
+        }
+        composable("qr/{userId}/{amount}") {
+            val amount = it.arguments?.getString("amount")
+            val userId = it.arguments?.getString("userId")
+            QrScreen(
+                modifier = modifier,
+                qrAmount = amount ?: "",
+                userId = userId ?: "",
+                navigateToHome = { navController.navigate("home") }
             )
         }
 

@@ -29,11 +29,12 @@ class HomeViewModel @Inject constructor(
     private val _userBalance = MutableStateFlow(0.0)
     val userBalance: StateFlow<Double> = _userBalance.asStateFlow()
 
-    private val userId: String? = auth.currentUser?.uid
+    private val _userId: String? = auth.currentUser?.uid
+    val userId: String? = _userId
 
 
     init {
-        userId?.let {
+        _userId?.let {
             loadUserData(it) // Cargar nombre y balance al iniciar el ViewModel
         }
     }

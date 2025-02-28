@@ -13,7 +13,8 @@ class QrCodeGenerator @Inject constructor(
     @ApplicationContext private val context: Context
 ) {
 
-    fun generateQrCode(content: String): Bitmap {
+    fun generateQrCode(amount: String, userId: String): Bitmap {
+        val content = "$amount;$userId"
         val bitMatrix = MultiFormatWriter().encode(
             content, BarcodeFormat.QR_CODE, 200, 200
         )
