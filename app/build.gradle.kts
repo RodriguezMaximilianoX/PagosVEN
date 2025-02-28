@@ -66,6 +66,7 @@ dependencies {
 
     //Dagger Hilt
     implementation(libs.dagger.hilt)
+    implementation(libs.androidx.appcompat)
     ksp(libs.dagger.hilt.compiler)
     implementation(libs.hilt.navigation.compose)
 
@@ -81,6 +82,10 @@ dependencies {
 
     //GSON
     implementation(libs.gson)
+
+    //ZXing
+    implementation(libs.zxing)
+    implementation(libs.journeyapp)
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)

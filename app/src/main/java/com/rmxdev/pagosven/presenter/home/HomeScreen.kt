@@ -1,5 +1,9 @@
 package com.rmxdev.pagosven.presenter.home
 
+import android.app.Activity
+import android.content.Intent
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -20,8 +24,10 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults.buttonColors
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -30,6 +36,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -37,6 +44,7 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.rmxdev.pagosven.R
+import com.rmxdev.pagosven.data.network.QrScannerActivity
 import com.rmxdev.pagosven.ui.theme.Black
 import com.rmxdev.pagosven.ui.theme.Blue
 import com.rmxdev.pagosven.ui.theme.White
@@ -46,18 +54,38 @@ fun HomeScreen(
     modifier: Modifier = Modifier,
     viewModel: HomeViewModel = hiltViewModel(),
     navigateToTransfer: () -> Unit,
-    navigateToDeposit: () -> Unit,
-    navigateToCharge: () -> Unit
+    navigateToRegisters: () -> Unit,
+    navigateToCharge: () -> Unit,
+    navigateToProfile: () -> Unit,
+    navigateToPay: (String) -> Unit,
 ) {
     val systemUiController = rememberSystemUiController()
+    val userName by viewModel.userName.collectAsState()
+    val userBalance by viewModel.userBalance.collectAsState()
+    val context = LocalContext.current
+    val scannedQr by viewModel.scannedQrContent.collectAsState()
+
+    val scannerLauncher = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.StartActivityForResult()
+    ) { result ->
+        if (result.resultCode == Activity.RESULT_OK) {
+            val fileId = result.data?.getStringExtra("SCANNED_FILE_ID")
+            fileId?.let { viewModel.processScannedQr(it) }
+        }
+    }
+
+    LaunchedEffect(scannedQr) {
+        scannedQr?.let { payAmount ->
+            navigateToPay(payAmount)
+        }
+    }
 
     SideEffect {
         systemUiController.isStatusBarVisible = false
         systemUiController.isNavigationBarVisible = false
     }
 
-    val userName by viewModel.userName.collectAsState()
-    val userBalance by viewModel.userBalance.collectAsState()
+
 
     Box(
         modifier = modifier.fillMaxSize(),
@@ -91,10 +119,14 @@ fun HomeScreen(
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     Text(text = "Hola, $userName", color = Blue, fontSize = 20.sp)
-                    Icon(
-                        painterResource(id = R.drawable.ic_account),
-                        contentDescription = "Go to account",
-                    )
+                    IconButton(
+                        onClick = { navigateToProfile() }
+                    ) {
+                        Icon(
+                            painter = painterResource(id = R.drawable.ic_account),
+                            contentDescription = "Profile"
+                        )
+                    }
                 }
                 Row(
                     modifier = Modifier
@@ -103,13 +135,13 @@ fun HomeScreen(
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     Button(
-                        onClick = { navigateToDeposit() },
+                        onClick = { navigateToRegisters() },
                         colors = buttonColors(containerColor = Color.Transparent),
                         modifier = Modifier
                             .border(2.dp, Blue, CircleShape)
                             .weight(1f)
                     ) {
-                        Text(text = "Depositar", color = Blue, fontWeight = FontWeight.Bold)
+                        Text(text = "Registros", color = Blue, fontWeight = FontWeight.Bold)
                     }
                     Spacer(modifier = Modifier.weight(0.10f))
                     Button(
@@ -176,7 +208,10 @@ fun HomeScreen(
             )
             Spacer(modifier = Modifier.weight(1f))
             FloatingActionButton(
-                onClick = { /*TODO*/ },
+                onClick = {
+                    val intent = Intent(context, QrScannerActivity::class.java)
+                    scannerLauncher.launch(intent)
+                },
                 shape = CircleShape,
                 containerColor = White,
                 modifier = Modifier.size(75.dp)

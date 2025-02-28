@@ -1,5 +1,6 @@
 package com.rmxdev.pagosven.presenter.home
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.google.firebase.auth.FirebaseAuth
@@ -18,6 +19,10 @@ class HomeViewModel @Inject constructor(
     private val getBalanceUser: GetBalanceUserUseCase,
     auth: FirebaseAuth
 ) : ViewModel() {
+
+    private val _scannedQrContent = MutableStateFlow<String?>(null)
+    val scannedQrContent: StateFlow<String?> = _scannedQrContent
+
     private val _userName = MutableStateFlow("")
     val userName: StateFlow<String> = _userName.asStateFlow()
 
@@ -43,6 +48,11 @@ class HomeViewModel @Inject constructor(
                 _userBalance.value = 0.0
             }
         }
+    }
+
+    fun processScannedQr(qrContent: String) {
+        Log.d("InitialViewModel", "processScannedQr: Updating scannedQrContent with $qrContent")
+        _scannedQrContent.value = qrContent
     }
 }
 

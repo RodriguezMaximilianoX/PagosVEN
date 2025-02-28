@@ -16,6 +16,9 @@ daggerHilt = "2.48"
 hitlNavigationCompose = "1.2.0"
 systemuicontroller = "0.34.0"
 gson = "2.10.1"
+zxing = "3.5.1"
+journeyapps = "4.3.0"
+appcompat = "1.7.0"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -46,6 +49,10 @@ firebase-firestore = { group = "com.google.firebase", name = "firebase-firestore
 system-ui-controller = { group = "com.google.accompanist", name = "accompanist-systemuicontroller", version.ref = "systemuicontroller" }
 
 gson = { group = "com.google.code.gson", name = "gson", version.ref = "gson" }
+
+zxing = { group = "com.google.zxing", name = "core", version.ref = "zxing" }
+journeyapp = { group = "com.journeyapps", name = "zxing-android-embedded", version.ref = "journeyapps" }
+androidx-appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "appcompat" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
