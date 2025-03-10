@@ -12,6 +12,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults.buttonColors
@@ -30,6 +31,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -66,7 +68,7 @@ fun ChargeScreen(
         ){
             Spacer(modifier = Modifier.weight(0.5f))
             Text(
-                text = "Cobrar",
+                text = "Cobrar con VenPAGO",
                 fontSize = 35.sp,
                 color = Blue,
                 textAlign = TextAlign.Center,
@@ -97,7 +99,9 @@ fun ChargeScreen(
             Spacer(modifier = Modifier.weight(0.1f))
             TextField(
                 value = amount,
-                onValueChange = { amount = it },
+                onValueChange = { if (it.all { char -> char.isDigit() }) {
+                    amount = it
+                } },
                 label = { Text("Ingresa el monto a cobrar", fontWeight = FontWeight.Bold) },
                 modifier = Modifier
                     .padding(bottom = 24.dp, start = 16.dp, end = 16.dp)
@@ -111,7 +115,8 @@ fun ChargeScreen(
                     focusedIndicatorColor = Color.Transparent,
                     unfocusedIndicatorColor = Color.Transparent
                 ),
-                maxLines = 1
+                maxLines = 1,
+                keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Number)
             )
             Button(
                 onClick = { navigateToQrScreen(userId, amount) },
@@ -122,7 +127,7 @@ fun ChargeScreen(
                 enabled = amount.isNotBlank()
             ) {
                 Text(
-                    text = "Generar código QR",
+                    text = "Generar pago",
                     fontSize = 25.sp,
                     fontWeight = FontWeight.Bold
                 )

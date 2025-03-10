@@ -37,6 +37,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
@@ -66,6 +67,7 @@ fun HomeScreen(
     val context = LocalContext.current
     val scannedQr by viewModel.scannedQrContent.collectAsState()
     val userId = viewModel.userId ?: ""
+    val screenWidth = LocalConfiguration.current.screenWidthDp.dp
 
     val scannerLauncher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.StartActivityForResult()
@@ -189,13 +191,13 @@ fun HomeScreen(
                 ) {
                     Text(
                         text = "Su saldo es: ",
-                        fontSize = 30.sp,
+                        fontSize = (screenWidth * 0.075f).value.sp,
                         color = Blue,
                         fontWeight = FontWeight.Bold
                     )
                     Text(
                         text = "$userBalance",
-                        fontSize = 30.sp,
+                        fontSize = (screenWidth * 0.075f).value.sp,
                         color = Black,
                         fontWeight = FontWeight.Bold
                     )

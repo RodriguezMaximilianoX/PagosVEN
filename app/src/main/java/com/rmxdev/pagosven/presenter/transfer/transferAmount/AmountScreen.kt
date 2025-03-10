@@ -14,6 +14,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults.buttonColors
@@ -36,6 +37,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -93,7 +95,9 @@ fun AmountScreen(
             Spacer(modifier = Modifier.weight(0.25f))
             TextField(
                 value = amount,
-                onValueChange = { amount = it },
+                onValueChange = { if (it.all { char -> char.isDigit() }) {
+                    amount = it
+                } },
                 label = { Text("Ingresa la cantidad a transferir", fontWeight = FontWeight.Bold) },
                 modifier = Modifier
                     .padding(bottom = 24.dp, start = 16.dp, end = 16.dp)
@@ -107,7 +111,8 @@ fun AmountScreen(
                     focusedIndicatorColor = Color.Transparent,
                     unfocusedIndicatorColor = Color.Transparent
                 ),
-                maxLines = 1
+                maxLines = 1,
+                keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Number)
             )
             Button(
                 onClick = { viewModel.transferMoney(userReceiver, amount.toDouble()) },
